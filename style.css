@@ -26,13 +26,14 @@ body{
 #display{
     display: flex;
     background-color: #7d7d7d;
-    border: 1px solid black;
+    border: 2px solid black;
     border-radius: 10px;
     width: 70%;
     height: 8%;
     font-size: 5vw;
     align-items: flex-end;
     justify-content: center;
+    overflow-x: hidden;
 }
 
 #numbers{
@@ -49,6 +50,10 @@ body{
     border: 1px dotted black;
     width: 40%;
     height: 70%;
+    display: flex;
+    align-content: flex-start;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 #operations button{
