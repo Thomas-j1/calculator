@@ -33,12 +33,14 @@ function updateDisplay(){
     display.innerHTML=displayValue;
 }
 
+function clearDisplay(){
+    displayValue = "";
+    updateDisplay();
+}
+
 //eventListeners
 
-clearButton.addEventListener('click', () => {
-    displayValue="";
-    updateDisplay();
-})
+clearButton.addEventListener('click', clearDisplay);
 
 numberButtons.forEach(button => 
     button.addEventListener('click', numberBtnClick));
