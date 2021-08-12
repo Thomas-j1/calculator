@@ -22,12 +22,12 @@ let operationClicked = false;
 
 //add
 function add(x, y) {
-    return parseInt(x) + parseInt(y);
+    return x + y;
 };
 
 //subtract
 function subtract(x, y) {
-    return parseInt(x) - parseInt(y);
+    return x - y;
 };
 
 //multiply
@@ -37,24 +37,13 @@ function multiply(x, y) {
 
 //divide
 function divide(x, y) {
-    return (parseInt(x) / parseInt(y));
+    return (x / y);
 };
 
 function operate(operator, x, y) {
     console.log(operator, x, y);
-    if (operator == "add") {
-        finalValue = add(x, y);
-    }
-    else if (operator == "subtract") {
-        finalValue = subtract(x, y);
-    }
-    else if (operator == "multiply"){
-        finalValue = multiply(x, y);
-    }
-    else if (operator == "divide"){
-        finalValue = divide(x, y);
-    }
-        displayValue = finalValue;
+    finalValue = operator(parseInt(x), parseInt(y));
+    displayValue = finalValue;
     updateDisplay();
 }
 
@@ -78,25 +67,43 @@ function clearDisplay() {
 }
 
 function getDisplayValue() {
-    console.log(display.innerHTML);
-    return display.innerHTML;
+    return parseInt(display.innerHTML);
 }
 
 function operatorClicked(e) {
-    operation = this.value;
     operationClicked = true;
-    firstValue = getDisplayValue();
+    if (firstValue != undefined) {
+        calc();
+        operation = this.value;
+    } else {
+        operation = this.value;
+        firstValue = getDisplayValue();
+        console.log(firstValue);
+    }
+}
+
+function calc() {
+    if (secondValue != undefined) {
+        firstValue = finalValue;
+    }
+    secondValue = getDisplayValue();
+    console.log(firstValue, secondValue);
+    operate(window[operation], firstValue, secondValue);
+    firstValue = finalValue;
 }
 
 //eventListeners
 
 equalsButton.addEventListener('click', () => {
-    secondValue = getDisplayValue();
-    console.log(firstValue, secondValue);
-    operate(operation, firstValue, secondValue);
+    calc();
+    //secondValue = 0;
 });
 
-clearButton.addEventListener('click', clearDisplay);
+clearButton.addEventListener('click',() => {
+    firstValue = null;
+    secondValue = null;
+    clearDisplay();
+});
 
 numberButtons.forEach(button =>
     button.addEventListener('click', numberBtnClick));
