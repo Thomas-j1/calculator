@@ -30,7 +30,7 @@ body{
     border-radius: 10px;
     width: 70%;
     height: 8%;
-    font-size: 5vw;
+    font-size: 6vh;
     align-items: flex-end;
     justify-content: center;
     overflow-x: hidden;
@@ -64,7 +64,7 @@ body{
 
 button{
     background-color: #000000;
-    font-size: 6vw;
+    font-size: 4vmax;
     font-family: sans-serif;
     border-radius: 10px;
     color: #ffffff;
