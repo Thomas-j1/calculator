@@ -12,7 +12,7 @@ const equalsButton = document.querySelector('#equals');
 const clearButton = document.querySelector('#clear');
 
 
-let displayValue = "";
+let displayValue = '';
 let firstValue;
 let secondValue;
 let solution;
@@ -47,16 +47,25 @@ function divide(x, y) {
 
 function operate(operator, x, y) {
     console.log(operator, x, y);
-    finalValue = operator(parseInt(x), parseInt(y));
+    finalValue = operator(parseFloat(x), parseFloat(y));
     if (isNaN(finalValue)) {
         displayError();
         return;
     }
-    displayValue = Math.round(finalValue * 100) / 100;
+    displayValue = Math.round(finalValue * 10000) / 10000;
     updateDisplay();
 }
 
 function numberBtnClick() {
+    if(this.id =='dot'){
+        console.log(displayValue.toString());
+        if(displayValue.toString().includes('.')){
+            return;
+        }
+        if(displayValue==""){
+            displayValue="0";
+        }
+    }
     if (operationClicked) {
         clearDisplay();
     }
@@ -72,17 +81,17 @@ function updateDisplay() {
 }
 
 function displayError() {
-    console.log("ERROR");
-    display.innerHTML = "ERROR";
+    console.log('ERROR');
+    display.innerHTML = 'ERROR';
 }
 
 function clearDisplay() {
-    displayValue = "";
-    display.innerHTML = "0";
+    displayValue = '';
+    display.innerHTML = '0';
 }
 
 function getDisplayValue() {
-    return parseInt(display.innerHTML);
+    return parseFloat(display.innerHTML);
 }
 
 function operatorClicked(e) {
@@ -125,13 +134,13 @@ function removeOtherSelectors(currentOperator) {
         if (button == currentOperator) {
             return;
         } else {
-            button.style.border = "";
+            button.style.border = '';
         }
     });
 }
 
 function addBorderToButton(button){
-    button.style.border = "1px solid white";
+    button.style.border = '1px solid white';
     removeOtherSelectors(button);
 }
 //eventListeners
