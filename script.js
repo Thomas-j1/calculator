@@ -19,6 +19,7 @@ let solution;
 let operation;
 
 let operationClicked = false;
+let lastButtonEquals = false;
 
 //add
 function add(x, y) {
@@ -37,13 +38,21 @@ function multiply(x, y) {
 
 //divide
 function divide(x, y) {
+    if (y == 0) {
+        displayError();
+        return;
+    }
     return (x / y);
 };
 
 function operate(operator, x, y) {
     console.log(operator, x, y);
     finalValue = operator(parseInt(x), parseInt(y));
-    displayValue = finalValue;
+    if (isNaN(finalValue)) {
+        displayError();
+        return;
+    }
+    displayValue = Math.round(finalValue * 100) / 100;
     updateDisplay();
 }
 
@@ -55,15 +64,21 @@ function numberBtnClick() {
     displayValue += n;
     updateDisplay();
     operationClicked = false;
+    lastButtonEquals = false;
 }
 
 function updateDisplay() {
     display.innerHTML = displayValue;
 }
 
+function displayError() {
+    console.log("ERROR");
+    display.innerHTML = "ERROR";
+}
+
 function clearDisplay() {
     displayValue = "";
-    updateDisplay();
+    display.innerHTML = "0";
 }
 
 function getDisplayValue() {
@@ -71,18 +86,30 @@ function getDisplayValue() {
 }
 
 function operatorClicked(e) {
+    if (operation == this.value && operationClicked) {
+        return;
+    }
     operationClicked = true;
+    if (lastButtonEquals) {
+        operation = this.value;
+        addBorderToButton(this);
+        return;
+    }
     if (firstValue != undefined) {
         calc();
-        operation = this.value;
     } else {
-        operation = this.value;
         firstValue = getDisplayValue();
-        console.log(firstValue);
     }
+    operation = this.value;
+    addBorderToButton(this);
+    lastButtonEquals = false;
 }
 
 function calc() {
+    if (operation == undefined) {
+        finalValue = 0;
+        return;
+    }
     if (secondValue != undefined) {
         firstValue = finalValue;
     }
@@ -90,19 +117,38 @@ function calc() {
     console.log(firstValue, secondValue);
     operate(window[operation], firstValue, secondValue);
     firstValue = finalValue;
+    secondValue = 0;
 }
 
+function removeOtherSelectors(currentOperator) {
+    operatorButtons.forEach(button => {
+        if (button == currentOperator) {
+            return;
+        } else {
+            button.style.border = "";
+        }
+    });
+}
+
+function addBorderToButton(button){
+    button.style.border = "1px solid white";
+    removeOtherSelectors(button);
+}
 //eventListeners
 
 equalsButton.addEventListener('click', () => {
     calc();
+    lastButtonEquals = true;
+    removeOtherSelectors();
     //secondValue = 0;
 });
 
-clearButton.addEventListener('click',() => {
+clearButton.addEventListener('click', () => {
     firstValue = null;
     secondValue = null;
+    operation = null;
     clearDisplay();
+    removeOtherSelectors();
 });
 
 numberButtons.forEach(button =>
